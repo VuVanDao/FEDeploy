@@ -6,4 +6,4 @@ if (process.env.BUILD_MODE === "production") {
   apiRoot = "https://be-5kst.onrender.com";
 }
 console.log(apiRoot);
-export const api_root = apiRoot;
+export const api_root = "https://be-5kst.onrender.com";
