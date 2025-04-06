@@ -1,2 +1,8 @@
-// export const api_root = "http://localhost:8080";
-export const api_root = "https://be-5kst.onrender.com";
+let apiRoot = "";
+if (process.env.BUILD_MODE === "dev") {
+  apiRoot = "http://localhost:8080";
+}
+if (process.env.BUILD_MODE === "production") {
+  apiRoot = "https://be-5kst.onrender.com";
+}
+export const api_root = apiRoot;
