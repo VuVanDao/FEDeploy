@@ -21,7 +21,14 @@ import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import CloseIcon from "@mui/icons-material/Close";
 import { toast } from "react-toastify";
 import { useConfirm } from "material-ui-confirm";
-const Columns = ({ column, createNewCard, deleteColumnDetails }) => {
+import {
+  updateCurrentActiveBoard,
+  selectCurrentActiveBoard,
+} from "~/redux/activeBoard/activeBoardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { cloneDeep } from "lodash";
+import { createNewCardAPI, deleteColumnDetailsApi } from "~/apis";
+const Columns = ({ column }) => {
   const {
     attributes,
     listeners,
@@ -37,8 +44,10 @@ const Columns = ({ column, createNewCard, deleteColumnDetails }) => {
     height: "100%",
     opacity: isDragging ? 0.5 : undefined,
   };
+  const dispatch = useDispatch();
 
   const orderCards = column.cards;
+  const board = useSelector(selectCurrentActiveBoard);
 
   const [openNewCardForm, setNewCardForm] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
@@ -52,7 +61,34 @@ const Columns = ({ column, createNewCard, deleteColumnDetails }) => {
       title: newCardTitle,
       columnId: column._id,
     };
-    await createNewCard(newCardData);
+    const createdCard = await createNewCardAPI({
+      ...newCardData,
+      boardId: board._id,
+    });
+    const newBoard = cloneDeep(board);
+    if (
+      newBoard.columns
+        .find((column) => column._id === createdCard.columnId)
+        .cards.some((card) => card.FE_placeholderCard)
+    ) {
+      newBoard.columns.find(
+        (column) => column._id === createdCard.columnId
+      ).cards = [createdCard];
+      newBoard.columns.find(
+        (column) => column._id === createdCard.columnId
+      ).cardOrderIds = [createdCard._id];
+    } else {
+      newBoard.columns
+        .find((column) => column._id === createdCard.columnId)
+        .cards.push(createdCard);
+      newBoard.columns
+        .find((column) => column._id === createdCard.columnId)
+        .cardOrderIds.push(createdCard._id);
+    }
+
+    // console.log("🚀 ~ createNewCard ~ newBoard:", newBoard);
+
+    dispatch(updateCurrentActiveBoard(newBoard));
     toast.success("add card complete");
     setNewCardTitle("");
     toggleOpenNewCardForm(!openNewCardForm);
@@ -65,7 +101,18 @@ const Columns = ({ column, createNewCard, deleteColumnDetails }) => {
       // confirmationKeyword: "vandao",
     })
       .then(() => {
-        deleteColumnDetails(column._id);
+        const newBoard = {
+          ...board,
+        };
+        newBoard.columns = newBoard.columns.filter((c) => c._id !== column._id);
+        newBoard.columnOrderIds = newBoard.columnOrderIds.filter(
+          (id) => id !== column._id
+        );
+        console.log("🚀 ~ .then ~ newBoard:", newBoard);
+        dispatch(updateCurrentActiveBoard(newBoard));
+        deleteColumnDetailsApi(column._id).then((res) =>
+          toast.success(res.message)
+        );
       })
       .catch(() => {});
   };

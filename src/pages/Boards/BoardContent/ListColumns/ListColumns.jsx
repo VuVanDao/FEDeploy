@@ -9,15 +9,21 @@ import {
   horizontalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { toast } from "react-toastify";
-const ListColumns = ({
-  columns,
-  createNewColumn,
-  createNewCard,
-  deleteColumnDetails,
-}) => {
+import { generatePlaceholderCard } from "~/utils/formatter";
+import { createNewColumnAPI } from "~/apis";
+import {
+  updateCurrentActiveBoard,
+  selectCurrentActiveBoard,
+} from "~/redux/activeBoard/activeBoardSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { cloneDeep } from "lodash";
+const ListColumns = ({ columns }) => {
+  const board = useSelector(selectCurrentActiveBoard);
   const [openNewColumnForm, setNewColumnForm] = useState(false);
   const [newColumnTitle, setNewColumnTitle] = useState("");
   const toggleOpenNewColumnForm = () => setNewColumnForm(!openNewColumnForm);
+  const dispatch = useDispatch();
+
   const addNewColumn = async () => {
     if (!newColumnTitle) {
       toast.error("plz type your column title");
@@ -26,7 +32,22 @@ const ListColumns = ({
     const newColumnData = {
       title: newColumnTitle,
     };
-    await createNewColumn(newColumnData);
+    const createdColumn = await createNewColumnAPI({
+      ...newColumnData,
+      boardId: board._id,
+    });
+    console.log("createdColumn", createdColumn);
+
+    const newBoard = cloneDeep(board);
+
+    createdColumn.cards = [generatePlaceholderCard(createdColumn)];
+    createdColumn.cardOrderIds = [generatePlaceholderCard(createdColumn)._id];
+
+    newBoard.columns.push(createdColumn);
+    newBoard.columnOrderIds.push(createdColumn._id);
+
+    dispatch(updateCurrentActiveBoard(newBoard));
+
     toast.success("add new column");
     setNewColumnTitle("");
     toggleOpenNewColumnForm(!openNewColumnForm);
@@ -53,12 +74,7 @@ const ListColumns = ({
         }}
       >
         {columns?.map((column) => (
-          <Columns
-            key={column._id}
-            column={column}
-            createNewCard={createNewCard}
-            deleteColumnDetails={deleteColumnDetails}
-          />
+          <Columns key={column._id} column={column} />
         ))}
         {/* btn add column */}
         {!openNewColumnForm ? (
