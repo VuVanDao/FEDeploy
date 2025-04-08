@@ -1,32 +1,29 @@
 import { Box, Container } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import AppBar from "~/components/AppBar/AppBar";
 import BoardBar from "./BoardBar/BoardBar";
 import BoardContent from "./BoardContent/BoardContent";
-
 import {
-  createNewCardAPI,
-  deleteColumnDetailsApi,
   moveCardToDifferentColumnApi,
   updateBoardDetailAPi,
   updateColumnDetailAPi,
 } from "~/apis";
 import { cloneDeep } from "lodash";
-import { toast } from "react-toastify";
 import {
   fetchBoardDetailAPI,
   updateCurrentActiveBoard,
   selectCurrentActiveBoard,
 } from "~/redux/activeBoard/activeBoardSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 function Board() {
   const dispatch = useDispatch();
-  // const [board, setBoard] = useState(null);
   const board = useSelector(selectCurrentActiveBoard);
+  const { boardId } = useParams();
   useEffect(() => {
-    const boardId = "67ea6a00609bdbb7c46dfbda";
+    // const boardId = "67ea6a00609bdbb7c46dfbda";
     dispatch(fetchBoardDetailAPI(boardId));
-  }, [dispatch]);
+  }, [dispatch, boardId]);
 
   const moveColumns = async (dndOrderColumn) => {
     const dndOrderColumnIds = dndOrderColumn.map((c) => c._id);
@@ -34,7 +31,7 @@ function Board() {
     const newBoard = cloneDeep(board);
     newBoard.columns = dndOrderColumn;
     newBoard.columnOrderIds = dndOrderColumnIds;
-    // dispatch(updateCurrentActiveBoard(newBoard));
+
     dispatch(updateCurrentActiveBoard(newBoard));
     await updateBoardDetailAPi(newBoard._id, {
       columnOrderIds: newBoard.columnOrderIds,
