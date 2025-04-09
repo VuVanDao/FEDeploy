@@ -158,6 +158,7 @@ const ListColumns = ({ columns }) => {
             />
             <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
               <Button
+                className="interceptor-loading"
                 variant="contained"
                 color={"success"}
                 onClick={() => addNewColumn()}

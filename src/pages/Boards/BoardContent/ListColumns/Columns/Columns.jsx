@@ -335,6 +335,7 @@ const Columns = ({ column }) => {
               />
               <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
                 <Button
+                  className="interceptor-loading"
                   variant="contained"
                   color={"success"}
                   onClick={() => addNewCard()}
