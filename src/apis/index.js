@@ -1,53 +1,78 @@
+import { toast } from "react-toastify";
 import authorizeAxiosInstance from "~/utils/authorizeAxios";
 import { api_root } from "~/utils/constants";
 //board
 // export const fetchBoardDetailAPi = async (boardId) => {
-//   const request = await axios.get(`${api_root}/v1/boards/${boardId}`);
-//   return request.data;
+//   const response = await axios.get(`${api_root}/v1/boards/${boardId}`);
+//   return response.data;
 // };
 
 export const updateBoardDetailAPi = async (boardId, updateData) => {
-  const request = await authorizeAxiosInstance.put(
+  const response = await authorizeAxiosInstance.put(
     `${api_root}/v1/boards/${boardId}`,
     updateData
   );
-  return request.data;
+  return response.data;
 };
 export const moveCardToDifferentColumnApi = async (updateData) => {
-  const request = await authorizeAxiosInstance.put(
+  const response = await authorizeAxiosInstance.put(
     `${api_root}/v1/boards/supports/moving_cards`,
     updateData
   );
-  return request.data;
+  return response.data;
 };
 
 //column
 export const createNewColumnAPI = async (newColumnData) => {
-  const request = await authorizeAxiosInstance.post(
+  const response = await authorizeAxiosInstance.post(
     `${api_root}/v1/columns`,
     newColumnData
   );
-  return request.data;
+  return response.data;
 };
 export const updateColumnDetailAPi = async (columnId, updateData) => {
-  const request = await authorizeAxiosInstance.put(
+  const response = await authorizeAxiosInstance.put(
     `${api_root}/v1/columns/${columnId}`,
     updateData
   );
-  return request.data;
+  return response.data;
 };
 export const deleteColumnDetailsApi = async (columnId) => {
-  const request = await authorizeAxiosInstance.delete(
+  const response = await authorizeAxiosInstance.delete(
     `${api_root}/v1/columns/${columnId}`
   );
-  return request.data;
+  return response.data;
 };
 
 //card
 export const createNewCardAPI = async (newCardData) => {
-  const request = await authorizeAxiosInstance.post(
+  const response = await authorizeAxiosInstance.post(
     `${api_root}/v1/cards`,
     newCardData
   );
-  return request.data;
+  return response.data;
+};
+
+//user
+export const registerUserAPI = async (data) => {
+  const response = await authorizeAxiosInstance.post(
+    `${api_root}/v1/users/register`,
+    data
+  );
+  toast.success(
+    "Account created successfully, plz check your email and verify your account",
+    { theme: "colored" }
+  );
+  return response.data;
+};
+export const verifyUserAPI = async (data) => {
+  const response = await authorizeAxiosInstance.put(
+    `${api_root}/v1/users/verify`,
+    data
+  );
+  toast.success(
+    "Your account verified successfully, enjoy our service 😁😁😁",
+    { theme: "colored" }
+  );
+  return response.data;
 };

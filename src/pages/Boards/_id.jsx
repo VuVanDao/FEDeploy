@@ -1,4 +1,4 @@
-import { Box, Container } from "@mui/material";
+import { Container } from "@mui/material";
 import React, { useEffect } from "react";
 import AppBar from "~/components/AppBar/AppBar";
 import BoardBar from "./BoardBar/BoardBar";
@@ -16,6 +16,7 @@ import {
 } from "~/redux/activeBoard/activeBoardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import PageLoadingSpinner from "~/components/loading/PageLoadingSpinner";
 function Board() {
   const dispatch = useDispatch();
   const board = useSelector(selectCurrentActiveBoard);
@@ -93,7 +94,7 @@ function Board() {
   };
 
   if (!board) {
-    return <Box>Loading...</Box>;
+    return <PageLoadingSpinner caption={"loading...."} />;
   }
   return (
     <Container sx={{ height: "100vh" }} maxWidth={false} disableGutters={true}>
