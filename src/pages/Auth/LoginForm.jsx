@@ -1,5 +1,5 @@
 // TrungQuanDev: https://youtube.com/@trungquandev
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Avatar from "@mui/material/Avatar";
@@ -20,6 +20,9 @@ import {
   PASSWORD_RULE_MESSAGE,
 } from "~/utils/validators";
 import FieldErrorAlert from "../Form/FieldErrorAlert";
+import { useDispatch } from "react-redux";
+import { LoginUserAPI } from "~/redux/user/userSlice";
+import { toast } from "react-toastify";
 function LoginForm() {
   const {
     register,
@@ -30,9 +33,21 @@ function LoginForm() {
   const { registeredEmail, verifiedEmail } = Object.fromEntries([
     ...searchParams,
   ]);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const submitLogIn = (data) => {
-    console.log(data);
+    const { email, password } = data;
+    toast
+      .promise(dispatch(LoginUserAPI({ email, password })), {
+        pending: "logging in... ",
+      })
+      .then((res) => {
+        console.log(res);
+        // navigate(`/login?registeredEmail=${user.email}`);
+        if (!res.error) {
+          navigate("/");
+        }
+      });
   };
   return (
     <form onSubmit={handleSubmit(submitLogIn)}>

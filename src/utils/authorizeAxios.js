@@ -28,7 +28,8 @@ authorizeAxiosInstance.interceptors.response.use(
   },
   (error) => {
     //moi status code nam ngoai 200-299 se la loi va chay vao day
-    console.log("error", error);
+    // console.log("error", error);
+    interceptorLoadingElements(false);
     let errorMessage = error?.message;
     if (error.response?.data?.message) {
       errorMessage = error.response?.data?.message;
