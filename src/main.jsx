@@ -11,31 +11,38 @@ import { store } from "~/redux/store";
 
 //cau hinh react-router-dom voi browserRouter
 import { BrowserRouter } from "react-router-dom";
+
+//cau hinh redux-persis
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
+const persistor = persistStore(store);
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename="/">
     <Provider store={store}>
-      <CssVarsProvider theme={theme}>
-        <ConfirmProvider
-          defaultOptions={{
-            allowClose: false,
-          }}
-        >
-          <CssBaseline />
-          <App />
-          <ToastContainer
-            position="bottom-right"
-            autoClose={5000}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-            theme="light"
-          />
-        </ConfirmProvider>
-      </CssVarsProvider>
+      <PersistGate persistor={persistor}>
+        <CssVarsProvider theme={theme}>
+          <ConfirmProvider
+            defaultOptions={{
+              allowClose: false,
+            }}
+          >
+            <CssBaseline />
+            <App />
+            <ToastContainer
+              position="bottom-right"
+              autoClose={5000}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="light"
+            />
+          </ConfirmProvider>
+        </CssVarsProvider>
+      </PersistGate>
     </Provider>
   </BrowserRouter>
 );
