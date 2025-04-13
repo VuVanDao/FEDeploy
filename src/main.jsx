@@ -16,6 +16,10 @@ import { BrowserRouter } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 const persistor = persistStore(store);
+
+//ki thuat inject store vao axios khi can dung redux store ngoai react component
+import { injectStore } from "~/utils/authorizeAxios";
+injectStore(store);
 createRoot(document.getElementById("root")).render(
   <BrowserRouter basename="/">
     <Provider store={store}>

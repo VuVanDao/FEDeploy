@@ -76,3 +76,9 @@ export const verifyUserAPI = async (data) => {
   );
   return response.data;
 };
+export const refreshTokenAPI = async () => {
+  const response = await authorizeAxiosInstance.post(
+    `${api_root}/v1/users/refresh_token`
+  );
+  return response.data;
+};
