@@ -138,6 +138,12 @@ function LoginForm() {
                     message: EMAIL_RULE_MESSAGE,
                   },
                 })}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) =>
+                      theme.palette.mode === "dark" ? "primary.main" : "black",
+                  },
+                }}
               />
               <FieldErrorAlert errors={errors} fieldName={"email"} />
             </Box>
@@ -155,6 +161,12 @@ function LoginForm() {
                     message: PASSWORD_RULE_MESSAGE,
                   },
                 })}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) =>
+                      theme.palette.mode === "dark" ? "primary.main" : "black",
+                  },
+                }}
               />
               <FieldErrorAlert errors={errors} fieldName={"password"} />
             </Box>

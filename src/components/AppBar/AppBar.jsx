@@ -22,6 +22,7 @@ import Profiles from "./Menus/Profiles";
 import theme from "~/Theme";
 import { Search } from "@mui/icons-material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import { Link } from "react-router-dom";
 const AppBar = () => {
   const [inputValue, setInputValue] = useState("");
 
@@ -37,6 +38,7 @@ const AppBar = () => {
         overflowX: "auto",
         bgcolor: (theme) =>
           theme.palette.mode === "dark" ? "#2c3e50" : "#1565c0",
+        gap: 3,
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
@@ -46,27 +48,29 @@ const AppBar = () => {
               theme.palette.mode === "dark" ? "primary.main" : "white",
           }}
         />
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <SvgIcon
-            component={trelloIcon}
-            inheritViewBox
-            sx={{
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "primary.main" : "white",
-            }}
-          />
-          <Typography
-            variant="span"
-            sx={{
-              fontSize: "1.2rem",
-              fontWeight: "bold",
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "primary.main" : "white",
-            }}
-          >
-            Trello
-          </Typography>
-        </Box>
+        <Link to={"/"} style={{ textDecoration: "none" }}>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+            <SvgIcon
+              component={trelloIcon}
+              inheritViewBox
+              sx={{
+                color: (theme) =>
+                  theme.palette.mode === "dark" ? "primary.main" : "white",
+              }}
+            />
+            <Typography
+              variant="span"
+              sx={{
+                fontSize: "1.2rem",
+                fontWeight: "bold",
+                color: (theme) =>
+                  theme.palette.mode === "dark" ? "primary.main" : "white",
+              }}
+            >
+              Trello
+            </Typography>
+          </Box>
+        </Link>
         <Box sx={{ display: { xs: "none", md: "flex" }, gap: 1 }}>
           <WorkSpaces />
           <Recent />

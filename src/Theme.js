@@ -61,7 +61,10 @@ const theme = extendTheme({
     MuiInputLabel: {
       styleOverrides: {
         root: ({ theme }) => ({
-          color: theme.palette.mode === "dark" ? "#90caf9" : "white",
+          color: theme.palette.mode === "dark" ? "#90caf9" : "black",
+          "&.Mui-focused": {
+            color: theme.palette.mode === "dark" ? "#90caf9" : "black",
+          },
         }),
       },
     },
@@ -98,11 +101,14 @@ const theme = extendTheme({
             "&:hover": {
               ".MuiOutlinedInput-notchedOutline": {
                 borderColor:
-                  theme.palette.mode === "dark" ? "#90caf9" : "white",
+                  theme.palette.mode === "dark" ? "#90caf9" : "black",
               },
             },
             "& fieldSet": {
               borderWidth: "1px !important",
+            },
+            "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+              borderColor: theme.palette.mode === "dark" ? "#90caf9" : "black",
             },
           };
         },

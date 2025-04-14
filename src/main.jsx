@@ -6,6 +6,8 @@ import App from "~/App.jsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ConfirmProvider } from "material-ui-confirm";
+import GlobalStyles from "@mui/material/GlobalStyles";
+
 import { Provider } from "react-redux";
 import { store } from "~/redux/store";
 
@@ -30,6 +32,13 @@ createRoot(document.getElementById("root")).render(
               allowClose: false,
             }}
           >
+            <GlobalStyles
+              styles={{
+                a: {
+                  textDecoration: "none",
+                },
+              }}
+            />
             <CssBaseline />
             <App />
             <ToastContainer
