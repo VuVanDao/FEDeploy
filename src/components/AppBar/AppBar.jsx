@@ -41,13 +41,19 @@ const AppBar = () => {
         gap: 3,
       }}
     >
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <AppsIcon
-          sx={{
-            color: (theme) =>
-              theme.palette.mode === "dark" ? "primary.main" : "white",
-          }}
-        />
+      <Box
+        sx={{ display: "flex", alignItems: "center", gap: 2 }}
+        component={Link}
+        to="/boards"
+      >
+        <Tooltip title="Trello Home" arrow>
+          <AppsIcon
+            sx={{
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "primary.main" : "white",
+            }}
+          />
+        </Tooltip>
         <Link to={"/"} style={{ textDecoration: "none" }}>
           <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
             <SvgIcon

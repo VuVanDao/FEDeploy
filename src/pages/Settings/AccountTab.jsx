@@ -81,12 +81,23 @@ function AccountTab() {
     let reqData = new FormData();
     reqData.append("avatar", e.target?.files[0]);
     // Cách để log được dữ liệu thông qua FormData
-    console.log("reqData: ", reqData);
-    for (const value of reqData.values()) {
-      console.log("reqData Value: ", value);
-    }
-
+    // console.log("reqData: ", reqData);
+    // for (const value of reqData.values()) {
+    //   console.log("reqData Value: ", value);
+    // }
     // Gọi API...
+    toast
+      .promise(dispatch(updateUserAPI(reqData)), {
+        pending: "updating... ",
+      })
+      .then((res) => {
+        console.log(res);
+        // Nếu không có lỗi gì thì update lại avatar cho currentUser
+        if (!res.error) {
+          toast.success("Update successfully!");
+        }
+        e.target.value = ""; // Reset lại input file
+      });
   };
 
   return (
