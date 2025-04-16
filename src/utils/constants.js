@@ -8,3 +8,6 @@ if (process.env.BUILD_MODE === "dev") {
 // }
 console.log(apiRoot);
 export const api_root = apiRoot;
+
+export const DEFAULT_PAGE = 1;
+export const DEFAULT_ITEM_PER_PAGE = 12;

@@ -82,3 +82,9 @@ export const refreshTokenAPI = async () => {
   );
   return response.data;
 };
+export const fetchBoardAPI = async (searchPath) => {
+  const response = await authorizeAxiosInstance.get(
+    `${api_root}/v1/boards${searchPath}`
+  );
+  return response.data;
+};
