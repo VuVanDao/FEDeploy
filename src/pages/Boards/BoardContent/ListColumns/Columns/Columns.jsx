@@ -27,7 +27,12 @@ import {
 } from "~/redux/activeBoard/activeBoardSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { cloneDeep } from "lodash";
-import { createNewCardAPI, deleteColumnDetailsApi } from "~/apis";
+import {
+  createNewCardAPI,
+  deleteColumnDetailsApi,
+  updateColumnDetailAPi,
+} from "~/apis";
+import ToggleFocusInput from "~/pages/Form/ToggleFocusInput";
 const Columns = ({ column }) => {
   const {
     attributes,
@@ -124,6 +129,15 @@ const Columns = ({ column }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const onUpdateColumnTitle = (newTitle) => {
+    updateColumnDetailAPi(column._id, { title: newTitle });
+    const newBoard = cloneDeep(board);
+    const ColumnToUpdate = newBoard.columns.find((c) => c._id === column._id);
+    if (ColumnToUpdate) {
+      ColumnToUpdate.title = newTitle;
+    }
+    dispatch(updateCurrentActiveBoard(newBoard));
+  };
   return (
     <div ref={setNodeRef} style={dndKitColumnStyles} {...attributes}>
       <Box
@@ -155,12 +169,17 @@ const Columns = ({ column }) => {
             // cursor: "pointer",
           }}
         >
-          <Typography
+          {/* <Typography
             sx={{ fontWeight: "700", fontSize: "1rem" }}
             variant="body2"
           >
             {column?.title}
-          </Typography>
+          </Typography> */}
+          <ToggleFocusInput
+            value={column?.title}
+            onChangedValue={onUpdateColumnTitle}
+            data-no-dnd="true"
+          />
           <Box>
             <Tooltip title="More options">
               <KeyboardArrowDownIcon
