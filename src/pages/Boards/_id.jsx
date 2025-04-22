@@ -17,6 +17,8 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import PageLoadingSpinner from "~/components/loading/PageLoadingSpinner";
+import ActiveCard from "~/components/Modal/ActiveCard/ActiveCard";
+import { selectCurrentActiveCard } from "~/redux/activeCard/activeCardSlice";
 function Board() {
   const dispatch = useDispatch();
   const board = useSelector(selectCurrentActiveBoard);
@@ -92,12 +94,17 @@ function Board() {
         ?.cardOrderIds,
     });
   };
-
+  const activeCard = useSelector(selectCurrentActiveCard);
   if (!board) {
     return <PageLoadingSpinner caption={"loading...."} />;
   }
   return (
     <Container sx={{ height: "100vh" }} maxWidth={false} disableGutters={true}>
+      {/* Modal active card ,check dong mo/dua theo dieu kien ton tai data activeCard luu trong redux hay ko thi moi render
+      moi thoi diem chi co 1 modal active card dang active */}
+      {activeCard && <ActiveCard />}
+      {/* <ActiveCard /> */}
+
       <AppBar />
       <BoardBar board={board} />
       {/* <BoardContent board={mockData.board} /> */}

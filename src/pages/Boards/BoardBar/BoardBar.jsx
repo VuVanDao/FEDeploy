@@ -7,6 +7,7 @@ import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { capitalizeFirstLetter } from "~/utils/formatter";
+import BoardUserGroup from "./BoardUserGroup";
 const STYLE_COMMON = {
   color: (theme) => (theme.palette.mode === "dark" ? "primary.main" : "white"),
   "& .MuiSvgIcon-root": {
@@ -89,44 +90,7 @@ const BoardBar = (props) => {
         >
           Invite
         </Button>
-
-        <AvatarGroup
-          max={5}
-          sx={{
-            "& .MuiAvatar-root": {
-              width: 35,
-              height: 35,
-              color: (theme) =>
-                theme.palette.mode === "dark" ? "primary.main" : "white",
-              borderColor: (theme) =>
-                theme.palette.mode === "dark" ? "primary.main" : "white",
-              cursor: "pointer",
-              "&:first-of-type": {
-                bgcolor: "#a4b0be",
-              },
-            },
-            gap: "10px",
-          }}
-        >
-          <Tooltip title="vanDao">
-            <Avatar src="https://i.pinimg.com/originals/d0/8c/fc/d08cfc4ede88b38c1fe39020433dc889.gif" />
-          </Tooltip>
-          <Tooltip title="vanDao">
-            <Avatar src="https://i.pinimg.com/originals/d0/8c/fc/d08cfc4ede88b38c1fe39020433dc889.gif" />
-          </Tooltip>
-          <Tooltip title="vanDao">
-            <Avatar src="https://i.pinimg.com/originals/d0/8c/fc/d08cfc4ede88b38c1fe39020433dc889.gif" />
-          </Tooltip>
-          <Tooltip title="vanDao">
-            <Avatar src="https://i.pinimg.com/originals/d0/8c/fc/d08cfc4ede88b38c1fe39020433dc889.gif" />
-          </Tooltip>
-          <Tooltip title="vanDao">
-            <Avatar src="https://i.pinimg.com/originals/d0/8c/fc/d08cfc4ede88b38c1fe39020433dc889.gif" />
-          </Tooltip>
-          <Tooltip title="vanDao">
-            <Avatar src="https://i.pinimg.com/originals/d0/8c/fc/d08cfc4ede88b38c1fe39020433dc889.gif" />
-          </Tooltip>
-        </AvatarGroup>
+        <BoardUserGroup />
       </Box>
     </Box>
   );
