@@ -27,11 +27,29 @@ export const activeBoardSlice = createSlice({
       //update lai du lieu currentActiveBoard
       state.currentActiveBoard = board;
     },
+    updateCardInActiveBoard: (state, action) => {
+      const incomingCard = action.payload;
+      //tim dan tu board > column > card
+      const column = state.currentActiveBoard.columns.find(
+        (i) => i._id === incomingCard.columnId
+      );
+      if (column) {
+        const card = column.cards.find((i) => i._id === incomingCard._id);
+        if (card) {
+          // card.title = incomingCard.title;
+          Object.keys(incomingCard).forEach((key) => {
+            card[key] = incomingCard[key];
+          });
+        }
+      }
+    },
   },
   //extraReducers
   extraReducers: (builder) => {
     builder.addCase(fetchBoardDetailAPI.fulfilled, (state, action) => {
       let board = action.payload; //action.payload = request.data
+      //member cua board la gop lai cua member va owner
+      board.FE_AllUsers = board.owners.concat(board.members);
       board.columns = mapOrder(board?.columns, board?.columnOrderIds, "_id");
       board.columns.forEach((column) => {
         if (isEmpty(column.cards)) {
@@ -47,7 +65,8 @@ export const activeBoardSlice = createSlice({
 });
 
 // Action la noi danh cho cac component ben duoi goi bang dispatch  toi no de cap nhat lai du lieu thong qua reducer
-export const { updateCurrentActiveBoard } = activeBoardSlice.actions;
+export const { updateCurrentActiveBoard, updateCardInActiveBoard } =
+  activeBoardSlice.actions;
 
 //selector: danh cho cac component ben duoi goi bang useSelector de lay du lieu tu trong kho reduxStore ra su dung
 export const selectCurrentActiveBoard = (state) => {

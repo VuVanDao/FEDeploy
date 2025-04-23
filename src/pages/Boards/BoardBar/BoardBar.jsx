@@ -90,7 +90,7 @@ const BoardBar = (props) => {
         >
           Invite
         </Button>
-        <BoardUserGroup />
+        <BoardUserGroup boardUsers={board?.FE_AllUsers} />
       </Box>
     </Box>
   );
