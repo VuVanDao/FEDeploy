@@ -16,13 +16,13 @@ import WorkSpaces from "./Menus/WorkSpaces";
 import Recent from "./Menus/Recent";
 import Started from "./Menus/Started";
 import Templates from "./Menus/Templates";
-import NotificationsIcon from "@mui/icons-material/Notifications";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Profiles from "./Menus/Profiles";
 import theme from "~/Theme";
 import { Search } from "@mui/icons-material";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Link } from "react-router-dom";
+import Notifications from "./Notifications/Notifications";
 const AppBar = () => {
   const [inputValue, setInputValue] = useState("");
 
@@ -156,9 +156,10 @@ const AppBar = () => {
           }
         />
 
+        {/* dark-light-mode */}
         <ModeSelect />
 
-        <Tooltip title="Notification">
+        {/* <Tooltip title="Notification">
           <Badge variant="dot" color="warning" sx={{ cursor: "pointer" }}>
             <NotificationsIcon
               sx={{
@@ -167,7 +168,10 @@ const AppBar = () => {
               }}
             />
           </Badge>
-        </Tooltip>
+        </Tooltip> */}
+
+        <Notifications />
+
         <Tooltip title="Help">
           <Badge
             variant="dot"
