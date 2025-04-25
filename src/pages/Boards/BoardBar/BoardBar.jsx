@@ -1,13 +1,14 @@
-import { Avatar, AvatarGroup, Box, Button, Chip, Tooltip } from "@mui/material";
+import { Box, Chip, Tooltip } from "@mui/material";
 import React from "react";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PublicIcon from "@mui/icons-material/Public";
 import AddToDriveIcon from "@mui/icons-material/AddToDrive";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
 import FilterListIcon from "@mui/icons-material/FilterList";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+
 import { capitalizeFirstLetter } from "~/utils/formatter";
 import BoardUserGroup from "./BoardUserGroup";
+import InviteBoardUser from "./InviteBoardUser";
 const STYLE_COMMON = {
   color: (theme) => (theme.palette.mode === "dark" ? "primary.main" : "white"),
   "& .MuiSvgIcon-root": {
@@ -74,22 +75,7 @@ const BoardBar = (props) => {
         />
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-        <Button
-          variant="outlined"
-          startIcon={<AddCircleOutlineIcon />}
-          sx={{
-            borderColor: (theme) =>
-              theme.palette.mode === "dark" ? "primary.main" : "white",
-            color: (theme) =>
-              theme.palette.mode === "dark" ? "primary.main" : "white",
-            "&:hover": {
-              borderColor: (theme) =>
-                theme.palette.mode === "dark" ? "primary.main" : "white",
-            },
-          }}
-        >
-          Invite
-        </Button>
+        <InviteBoardUser boardId={board?._id} />
         <BoardUserGroup boardUsers={board?.FE_AllUsers} />
       </Box>
     </Box>

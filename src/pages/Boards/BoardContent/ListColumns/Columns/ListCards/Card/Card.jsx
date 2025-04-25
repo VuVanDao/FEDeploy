@@ -13,7 +13,10 @@ import {
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useDispatch } from "react-redux";
-import { updateCurrentActiveCard } from "~/redux/activeCard/activeCardSlice";
+import {
+  showModalActiveCard,
+  updateCurrentActiveCard,
+} from "~/redux/activeCard/activeCardSlice";
 
 const Card = ({ card }) => {
   const dispatch = useDispatch();
@@ -33,6 +36,7 @@ const Card = ({ card }) => {
     border: isDragging ? "1px solid #2ecc71" : undefined,
   };
   const setActiveCard = () => {
+    dispatch(showModalActiveCard());
     dispatch(updateCurrentActiveCard(card));
   };
   return (
