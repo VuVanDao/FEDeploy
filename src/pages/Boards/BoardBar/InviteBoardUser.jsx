@@ -14,6 +14,7 @@ import {
 } from "~/utils/validators";
 import FieldErrorAlert from "~/pages/Form/FieldErrorAlert";
 import { inviteUserInBoardAPI } from "~/apis";
+import { socketIoInstance } from "~/main";
 
 function InviteBoardUser({ boardId }) {
   /**
@@ -38,10 +39,13 @@ function InviteBoardUser({ boardId }) {
     const { inviteeEmail } = data;
     // console.log("inviteeEmail:", inviteeEmail);
     //goi api moi user nao do
-    inviteUserInBoardAPI({ inviteeEmail, boardId }).then(() => {
+    inviteUserInBoardAPI({ inviteeEmail, boardId }).then((invitation) => {
       // Clear thẻ input sử dụng react-hook-form bằng setValue, dong thoi dong popover
       setValue("inviteeEmail", null);
       setAnchorPopoverElement(null);
+
+      //moi 1 nguoi dung vao board xong thi cung se gui , emit su ken socket len server (real-time)
+      socketIoInstance.emit("FE_USER_INVITED_TO_BOARD", invitation);
     });
   };
 
@@ -102,6 +106,18 @@ function InviteBoardUser({ boardId }) {
                   pattern: { value: EMAIL_RULE, message: EMAIL_RULE_MESSAGE },
                 })}
                 error={!!errors["inviteeEmail"]}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) =>
+                      theme.palette.mode === "dark" ? "primary.main" : "black",
+                    "& fieldset": {
+                      borderColor: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "primary.main"
+                          : "black",
+                    },
+                  },
+                }}
               />
               <FieldErrorAlert errors={errors} fieldName={"inviteeEmail"} />
             </Box>

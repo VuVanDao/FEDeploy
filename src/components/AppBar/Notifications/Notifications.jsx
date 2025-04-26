@@ -15,11 +15,15 @@ import DoneIcon from "@mui/icons-material/Done";
 import NotInterestedIcon from "@mui/icons-material/NotInterested";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  addNotifications,
   fetchInvitationsAPI,
   selectCurrentNotification,
   updateBoardInvitationAPI,
   updateCurrentNotifications,
 } from "~/redux/notification/notificationsSlice";
+import { socketIoInstance } from "~/main";
+import { selectCurrentUser } from "~/redux/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 const BOARD_INVITATION_STATUS = {
   PENDING: "PENDING",
@@ -32,6 +36,9 @@ function Notifications() {
   const open = Boolean(anchorEl);
   const handleClickNotificationIcon = (event) => {
     setAnchorEl(event.currentTarget);
+
+    //khi click vao thong bao thi set lai thong bao newNotification ve false
+    setNewNotification(false);
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -40,16 +47,43 @@ function Notifications() {
   //lay du lieu notification tu trong redux
   const notifications = useSelector(selectCurrentNotification);
 
+  const currentUser = useSelector(selectCurrentUser);
+  const [newNotification, setNewNotification] = useState(false);
+
   //fetch cac invitation
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchInvitationsAPI());
-  }, [dispatch]);
 
-  //cap naht trang thai cua 1 loi moi join board
+    //tao 1 function xu li real time
+    const onReceiveNewInvitation = (invitation) => {
+      //neu user hiewn tai dang dang nhap trong redux la thang invitee trong invitation
+      if (invitation.inviteeId === currentUser._id) {
+        //them ban ghi invitation moi vao redux
+        dispatch(addNotifications(invitation));
+        //cap nhat trang thai co tb den
+        setNewNotification(true);
+      }
+    };
+    //lang nghe su kien realTime co ten FE_USER_INVITED_TO_BOARD tu server gui ve
+    socketIoInstance.on("FE_USER_INVITED_TO_BOARD", onReceiveNewInvitation);
+
+    return () => {
+      socketIoInstance.off("FE_USER_INVITED_TO_BOARD", onReceiveNewInvitation);
+    };
+  }, [dispatch, currentUser._id]);
+
+  const navigate = useNavigate();
+  //cap nhat trang thai cua 1 loi moi join board
   const updateBoardInvitation = (status, invitationId) => {
     dispatch(updateBoardInvitationAPI({ status, invitationId })).then((res) => {
-      console.log("🚀 ~ dispatch ~ res:", res);
+      // console.log("🚀 ~ dispatch ~ res:", res);
+      if (
+        res?.payload?.boardInvitation?.status ===
+        BOARD_INVITATION_STATUS.ACCEPTED
+      ) {
+        navigate(`/boards/${res?.payload?.boardInvitation?.boardId}`);
+      }
     });
   };
 
@@ -59,7 +93,7 @@ function Notifications() {
         <Badge
           color="warning"
           // variant="none"
-          variant="dot"
+          variant={newNotification ? "dot" : "none"}
           sx={{ cursor: "pointer" }}
           id="basic-button-open-notification"
           aria-controls={open ? "basic-notification-drop-down" : undefined}

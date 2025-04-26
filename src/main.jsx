@@ -22,10 +22,15 @@ const persistor = persistStore(store);
 //ki thuat inject store vao axios khi can dung redux store ngoai react component
 import { injectStore } from "~/utils/authorizeAxios";
 injectStore(store);
+
+//cau hinh sokcet-io phia client va export ra bien socketIoInstance
+import { io } from "socket.io-client";
+import { api_root } from "./utils/constants";
+export const socketIoInstance = io(api_root);
 createRoot(document.getElementById("root")).render(
-  <BrowserRouter basename="/">
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
+  <Provider store={store}>
+    <PersistGate persistor={persistor}>
+      <BrowserRouter basename="/">
         <CssVarsProvider theme={theme}>
           <ConfirmProvider
             defaultOptions={{
@@ -55,7 +60,7 @@ createRoot(document.getElementById("root")).render(
             />
           </ConfirmProvider>
         </CssVarsProvider>
-      </PersistGate>
-    </Provider>
-  </BrowserRouter>
+      </BrowserRouter>
+    </PersistGate>
+  </Provider>
 );
