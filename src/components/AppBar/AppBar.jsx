@@ -1,13 +1,5 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Input,
-  InputAdornment,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import React, { useState } from "react";
+import { Badge, Box, Button, Tooltip, Typography } from "@mui/material";
+import React from "react";
 import ModeSelect from "~/components/ModeSelect/ModeSelect";
 import AppsIcon from "@mui/icons-material/Apps";
 import SvgIcon from "@mui/material/SvgIcon";
@@ -18,14 +10,10 @@ import Started from "./Menus/Started";
 import Templates from "./Menus/Templates";
 import HelpOutlineIcon from "@mui/icons-material/HelpOutline";
 import Profiles from "./Menus/Profiles";
-import theme from "~/Theme";
-import { Search } from "@mui/icons-material";
-import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import { Link } from "react-router-dom";
 import Notifications from "./Notifications/Notifications";
+import AutoCompleteSearchBoard from "./SearchBoards/AutoCompleteSearchBoard";
 const AppBar = () => {
-  const [inputValue, setInputValue] = useState("");
-
   return (
     <Box
       px={2}
@@ -94,7 +82,7 @@ const AppBar = () => {
         </Box>
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-        <Input
+        {/* <Input
           label="Outlined"
           variant="outlined"
           value={inputValue}
@@ -154,7 +142,8 @@ const AppBar = () => {
               />
             </InputAdornment>
           }
-        />
+        /> */}
+        <AutoCompleteSearchBoard />
 
         {/* dark-light-mode */}
         <ModeSelect />
