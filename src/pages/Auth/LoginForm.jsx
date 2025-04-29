@@ -76,7 +76,7 @@ function LoginForm() {
               color: (theme) => theme.palette.grey[500],
             }}
           >
-            Author: TrungQuanDev
+            Author: Hehehe
           </Box>
           <Box
             sx={{
@@ -142,6 +142,12 @@ function LoginForm() {
                   "& .MuiOutlinedInput-root": {
                     color: (theme) =>
                       theme.palette.mode === "dark" ? "primary.main" : "black",
+                    "& fieldset": {
+                      borderColor: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "primary.main"
+                          : "black",
+                    },
                   },
                 }}
               />
@@ -165,6 +171,12 @@ function LoginForm() {
                   "& .MuiOutlinedInput-root": {
                     color: (theme) =>
                       theme.palette.mode === "dark" ? "primary.main" : "black",
+                    "& fieldset": {
+                      borderColor: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "primary.main"
+                          : "black",
+                    },
                   },
                 }}
               />

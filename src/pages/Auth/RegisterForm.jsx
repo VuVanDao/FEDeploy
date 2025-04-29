@@ -85,6 +85,18 @@ function RegisterForm() {
                     message: EMAIL_RULE_MESSAGE,
                   },
                 })}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) =>
+                      theme.palette.mode === "dark" ? "primary.main" : "black",
+                    "& fieldset": {
+                      borderColor: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "primary.main"
+                          : "black",
+                    },
+                  },
+                }}
               />
               <FieldErrorAlert errors={errors} fieldName={"email"} />
             </Box>
@@ -102,6 +114,18 @@ function RegisterForm() {
                     message: PASSWORD_RULE_MESSAGE,
                   },
                 })}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) =>
+                      theme.palette.mode === "dark" ? "primary.main" : "black",
+                    "& fieldset": {
+                      borderColor: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "primary.main"
+                          : "black",
+                    },
+                  },
+                }}
               />
               <FieldErrorAlert errors={errors} fieldName={"password"} />
             </Box>
@@ -119,6 +143,18 @@ function RegisterForm() {
                       : "confirm password is not match";
                   },
                 })}
+                sx={{
+                  "& .MuiOutlinedInput-root": {
+                    color: (theme) =>
+                      theme.palette.mode === "dark" ? "primary.main" : "black",
+                    "& fieldset": {
+                      borderColor: (theme) =>
+                        theme.palette.mode === "dark"
+                          ? "primary.main"
+                          : "black",
+                    },
+                  },
+                }}
               />
               <FieldErrorAlert
                 errors={errors}

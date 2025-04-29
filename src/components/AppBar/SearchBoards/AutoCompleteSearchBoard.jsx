@@ -1,7 +1,3 @@
-/**
- * Author: TrungQuanDev - Một Lập Trình Viên
- * YouTube: https://youtube.com/@trungquandev
- */
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -9,11 +5,9 @@ import CircularProgress from "@mui/material/CircularProgress";
 import InputAdornment from "@mui/material/InputAdornment";
 import SearchIcon from "@mui/icons-material/Search";
 import { createSearchParams, useNavigate } from "react-router-dom";
+import { fetchBoardAPI } from "~/apis";
+import { useDebounceFn } from "~/customHook/useDebounceFn";
 
-/**
- * Hướng dẫn & ví dụ cái Autocomplele của MUI ở đây:
- * https://mui.com/material-ui/react-autocomplete/#asynchronous-requests
- */
 function AutoCompleteSearchBoard() {
   const navigate = useNavigate();
 
@@ -35,20 +29,32 @@ function AutoCompleteSearchBoard() {
   const handleInputSearchChange = (event) => {
     const searchValue = event.target?.value;
     if (!searchValue) return;
-    console.log(searchValue);
 
     // Dùng createSearchParams của react-router-dom để tạo một cái searchPath chuẩn với q[title] để gọi lên API
     const searchPath = `?${createSearchParams({ "q[title]": searchValue })}`;
     console.log(searchPath);
 
     // Gọi API...
+    setLoading(true);
+    fetchBoardAPI(searchPath)
+      .then((res) => {
+        setBoards(res.boards || []);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
-  // Làm useDebounceFn...
+
+  // boc handleInputSearchChange vao useDebounceFn va cho delay 1s sau khi dung go phim thi ms chat function
+  const debounceSearchBoard = useDebounceFn(handleInputSearchChange);
 
   // Khi chúng ta select chọn một cái board cụ thể thì sẽ điều hướng tới board đó luôn
   const handleSelectedBoard = (event, selectedBoard) => {
     // Phải kiểm tra nếu tồn tại một cái board cụ thể được select thì mới gọi điều hướng - navigate
-    console.log(selectedBoard);
+    // console.log(selectedBoard);
+    if (selectedBoard) {
+      navigate(`/boards/${selectedBoard._id}`);
+    }
   };
 
   return (
@@ -75,7 +81,7 @@ function AutoCompleteSearchBoard() {
       // Loading thì đơn giản rồi nhé
       loading={loading}
       // onInputChange sẽ chạy khi gõ nội dung vào thẻ input, cần làm debounce để tránh việc bị spam gọi API
-      onInputChange={handleInputSearchChange}
+      onInputChange={debounceSearchBoard}
       // onChange của cả cái Autocomplete sẽ chạy khi chúng ta select một cái kết quả (ở đây là board)
       onChange={handleSelectedBoard}
       // Render ra cái thẻ input để nhập nội dung tìm kiếm
