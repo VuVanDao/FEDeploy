@@ -62,6 +62,7 @@ function AutoCompleteSearchBoard() {
         setOpen(false);
       }}
       getOptionLabel={(board) => board.title}
+      options={boards || []}
       isOptionEqualToValue={(option, value) => option._id === value._id}
       loading={loading}
       onInputChange={debounceSearchBoard}

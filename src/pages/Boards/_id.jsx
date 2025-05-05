@@ -106,7 +106,7 @@ function Board() {
 
       <AppBar />
       <BoardBar board={board} />
-      {/* <BoardContent board={mockData.board} /> */}
+
       <BoardContent
         board={board}
         // deleteColumnDetails={deleteColumnDetails}
