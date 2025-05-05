@@ -28,7 +28,6 @@ function Settings() {
   // State lưu trữ giá trị tab nào đang active
   const [activeTab, setActiveTab] = useState(getDefaultTab());
 
-  // https://mui.com/material-ui/react-tabs/#experimental-api
   const handleChangeTab = (event, selectedTab) => {
     setActiveTab(selectedTab);
   };

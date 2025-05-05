@@ -29,12 +29,10 @@ function SecurityTab() {
     formState: { errors },
   } = useForm();
 
-  // Ôn lại: https://www.npmjs.com/package/material-ui-confirm
   const confirmChangePassword = useConfirm();
   const dispatch = useDispatch();
   const submitChangePassword = (data) => {
     confirmChangePassword({
-      // Title, Description, Content...vv của gói material-ui-confirm đều có type là ReactNode nên có thể thoải sử dụng MUI components, rất tiện lợi khi cần custom styles
       title: (
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
           <LogoutIcon sx={{ color: "warning.dark" }} /> Change Password

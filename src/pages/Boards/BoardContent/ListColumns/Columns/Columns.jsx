@@ -33,6 +33,7 @@ import {
   updateColumnDetailAPi,
 } from "~/apis";
 import ToggleFocusInput from "~/pages/Form/ToggleFocusInput";
+import { selectCurrentUser } from "~/redux/user/userSlice";
 const Columns = ({ column }) => {
   const {
     attributes,
@@ -53,6 +54,7 @@ const Columns = ({ column }) => {
 
   const orderCards = column.cards;
   const board = useSelector(selectCurrentActiveBoard);
+  const user = useSelector(selectCurrentUser);
 
   const [openNewCardForm, setNewCardForm] = useState(false);
   const [newCardTitle, setNewCardTitle] = useState("");
@@ -169,17 +171,21 @@ const Columns = ({ column }) => {
             // cursor: "pointer",
           }}
         >
-          {/* <Typography
-            sx={{ fontWeight: "700", fontSize: "1rem" }}
-            variant="body2"
-          >
-            {column?.title}
-          </Typography> */}
-          <ToggleFocusInput
-            value={column?.title}
-            onChangedValue={onUpdateColumnTitle}
-            data-no-dnd="true"
-          />
+          {board.ownerIds.includes(user._id) ? (
+            <ToggleFocusInput
+              value={column?.title}
+              onChangedValue={onUpdateColumnTitle}
+              data-no-dnd="true"
+            />
+          ) : (
+            <Typography
+              sx={{ fontWeight: "700", fontSize: "1rem" }}
+              variant="body2"
+            >
+              {column?.title}
+            </Typography>
+          )}
+
           <Box>
             <Tooltip title="More options">
               <KeyboardArrowDownIcon

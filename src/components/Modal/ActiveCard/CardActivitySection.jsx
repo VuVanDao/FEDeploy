@@ -12,12 +12,10 @@ function CardActivitySection({ cardComments = [], onAddCardComment }) {
   const currentUser = useSelector(selectCurrentUser);
 
   const handleAddCardComment = (event) => {
-    // Bắt hành động người dùng nhấn phím Enter && không phải hành động Shift + Enter
     if (event.key === "Enter" && !event.shiftKey) {
-      event.preventDefault(); // Thêm dòng này để khi Enter không bị nhảy dòng
-      if (!event.target?.value) return; // Nếu không có giá trị gì thì return không làm gì cả
+      event.preventDefault();
+      if (!event.target?.value) return;
 
-      // Tạo một biến commend data để gửi api
       const commentToAdd = {
         userAvatar: currentUser?.avatar,
         userDisplayName: currentUser?.displayName,
@@ -46,6 +44,16 @@ function CardActivitySection({ cardComments = [], onAddCardComment }) {
           variant="outlined"
           multiline
           onKeyDown={handleAddCardComment}
+          sx={{
+            "& .MuiOutlinedInput-root": {
+              color: (theme) =>
+                theme.palette.mode === "dark" ? "primary.main" : "black",
+              "& fieldset": {
+                borderColor: (theme) =>
+                  theme.palette.mode === "dark" ? "primary.main" : "black",
+              },
+            },
+          }}
         />
       </Box>
 

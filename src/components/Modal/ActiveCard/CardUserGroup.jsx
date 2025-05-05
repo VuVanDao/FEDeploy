@@ -9,12 +9,9 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { selectCurrentActiveBoard } from "~/redux/activeBoard/activeBoardSlice";
 import { useSelector } from "react-redux";
 import { CARD_MEMBER_ACTION } from "~/utils/constants";
+import { selectCurrentUser } from "~/redux/user/userSlice";
 
 function CardUserGroup({ cardMemberIds = [], onUpdateCardMember }) {
-  /**
-   * Xử lý Popover để ẩn hoặc hiện toàn bộ user trên một cái popup, tương tự docs để tham khảo ở đây:
-   * https://mui.com/material-ui/react-popover/
-   */
   const [anchorPopoverElement, setAnchorPopoverElement] = useState(null);
   const isOpenPopover = Boolean(anchorPopoverElement);
   const popoverId = isOpenPopover ? "card-all-users-popover" : undefined;
@@ -24,6 +21,7 @@ function CardUserGroup({ cardMemberIds = [], onUpdateCardMember }) {
   };
   //lay activeBoard tu redux muc dich la lay toan bo thong tin nhung thanh vien cua board
   const board = useSelector(selectCurrentActiveBoard);
+  const user = useSelector(selectCurrentUser);
 
   //thanh vien trong card phai la tap con thanh vien trong board
   //vi the dua vao board.FE_AllUsers va cardMemberIds.memberIds de lay ra cac member cua card, boi trong activeCard moi chi luu id
@@ -42,7 +40,7 @@ function CardUserGroup({ cardMemberIds = [], onUpdateCardMember }) {
     };
     onUpdateCardMember(incomingCardInfo);
   };
-  // Lưu ý ở đây chúng ta không dùng Component AvatarGroup của MUI bởi nó không hỗ trợ tốt trong việc chúng ta cần custom & trigger xử lý phần tử tính toán cuối, đơn giản là cứ dùng Box và CSS - Style đám Avatar cho chuẩn kết hợp tính toán một chút thôi.
+
   return (
     <Box sx={{ display: "flex", gap: "4px", flexWrap: "wrap" }}>
       {/* Hiển thị các user là thành viên của card */}
@@ -55,39 +53,42 @@ function CardUserGroup({ cardMemberIds = [], onUpdateCardMember }) {
           />
         </Tooltip>
       ))}
-
       {/* Nút này để mở popover thêm member */}
-      <Tooltip title="Add new member">
-        <Box
-          aria-describedby={popoverId}
-          onClick={handleTogglePopover}
-          sx={{
-            width: 36,
-            height: 36,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "14px",
-            fontWeight: "600",
-            borderRadius: "50%",
-            color: (theme) =>
-              theme.palette.mode === "dark" ? "#90caf9" : "#172b4d",
-            bgcolor: (theme) =>
-              theme.palette.mode === "dark"
-                ? "#2f3542"
-                : theme.palette.grey[200],
-            "&:hover": {
+      {board.ownerIds.includes(user._id) ? (
+        <Tooltip title="Add new member">
+          <Box
+            aria-describedby={popoverId}
+            onClick={handleTogglePopover}
+            sx={{
+              width: 36,
+              height: 36,
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              fontSize: "14px",
+              fontWeight: "600",
+              borderRadius: "50%",
               color: (theme) =>
-                theme.palette.mode === "dark" ? "#000000de" : "#0c66e4",
+                theme.palette.mode === "dark" ? "#90caf9" : "#172b4d",
               bgcolor: (theme) =>
-                theme.palette.mode === "dark" ? "#90caf9" : "#e9f2ff",
-            },
-          }}
-        >
-          <AddIcon fontSize="small" />
-        </Box>
-      </Tooltip>
+                theme.palette.mode === "dark"
+                  ? "#2f3542"
+                  : theme.palette.grey[200],
+              "&:hover": {
+                color: (theme) =>
+                  theme.palette.mode === "dark" ? "#000000de" : "#0c66e4",
+                bgcolor: (theme) =>
+                  theme.palette.mode === "dark" ? "#90caf9" : "#e9f2ff",
+              },
+            }}
+          >
+            <AddIcon fontSize="small" />
+          </Box>
+        </Tooltip>
+      ) : (
+        ""
+      )}
 
       {/* Khi Click vào + ở trên thì sẽ mở popover hiện toàn bộ users trong board để người dùng Click chọn thêm vào card  */}
       <Popover
@@ -108,7 +109,6 @@ function CardUserGroup({ cardMemberIds = [], onUpdateCardMember }) {
         >
           {board.FE_AllUsers.map((user, index) => (
             <Tooltip title={user?.username} key={index}>
-              {/* Cách làm Avatar kèm badge icon: https://mui.com/material-ui/react-avatar/#with-badge */}
               <Badge
                 sx={{ cursor: "pointer" }}
                 overlap="rectangular"

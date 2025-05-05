@@ -5,33 +5,20 @@ import rehypeSanitize from "rehype-sanitize";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import EditNoteIcon from "@mui/icons-material/EditNote";
+import { useSelector } from "react-redux";
+import { selectCurrentActiveBoard } from "~/redux/activeBoard/activeBoardSlice";
+import { selectCurrentUser } from "~/redux/user/userSlice";
 
-// const markdownValueExample = `
-//   *\`Markdown Content Example:\`*
-
-//   **Hello world | TrungQuanDev - Một Lập Trình Viên | Trello MERN Stack Advanced**
-//   [![](https://avatars.githubusercontent.com/u/14128099?v=4&s=80)](https://avatars.githubusercontent.com/u/14128099?v=4)
-//   \`\`\`javascript
-//   import React from "react"
-//   import ReactDOM from "react-dom"
-//   import MDEditor from '@uiw/react-md-editor'
-//   \`\`\`
-// `;
-/**
- * Vài ví dụ Markdown từ lib
- * https://codesandbox.io/embed/markdown-editor-for-react-izdd6?fontsize=14&hidenavigation=1&theme=dark
- */
 function CardDescriptionMdEditor({
   cardDescriptionProp,
   handleCardDescription,
 }) {
-  // Lấy giá trị 'dark', 'light' hoặc 'system' mode từ MUI để support phần Markdown bên dưới: data-color-mode={mode}
-  // https://www.npmjs.com/package/@uiw/react-md-editor#support-dark-modenight-mode
+  const board = useSelector(selectCurrentActiveBoard);
+  const user = useSelector(selectCurrentUser);
   const { mode } = useColorScheme();
 
-  // State xử lý chế độ Edit và chế độ View
   const [markdownEditMode, setMarkdownEditMode] = useState(false);
-  // State xử lý giá trị markdown khi chỉnh sửa
+
   const [cardDescription, setCardDescription] = useState(cardDescriptionProp);
 
   const updateCardDescription = () => {
@@ -48,9 +35,9 @@ function CardDescriptionMdEditor({
             <MDEditor
               value={cardDescription}
               onChange={setCardDescription}
-              previewOptions={{ rehypePlugins: [[rehypeSanitize]] }} // https://www.npmjs.com/package/@uiw/react-md-editor#security
+              previewOptions={{ rehypePlugins: [[rehypeSanitize]] }}
               height={400}
-              preview="edit" // Có 3 giá trị để set tùy nhu cầu ['edit', 'live', 'preview']
+              preview="edit" //
               // hideToolbar={true}
             />
           </Box>
@@ -68,17 +55,22 @@ function CardDescriptionMdEditor({
         </Box>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
-          <Button
-            sx={{ alignSelf: "flex-end" }}
-            onClick={() => setMarkdownEditMode(true)}
-            type="button"
-            variant="contained"
-            color="info"
-            size="small"
-            startIcon={<EditNoteIcon />}
-          >
-            Edit
-          </Button>
+          {board.ownerIds.includes(user._id) ? (
+            <Button
+              sx={{ alignSelf: "flex-end" }}
+              onClick={() => setMarkdownEditMode(true)}
+              type="button"
+              variant="contained"
+              color="info"
+              size="small"
+              startIcon={<EditNoteIcon />}
+            >
+              Edit
+            </Button>
+          ) : (
+            <Button sx={{ opacity: 0, cursor: "default" }}>Edit</Button>
+          )}
+
           <Box data-color-mode={mode}>
             <MDEditor.Markdown
               source={cardDescription}

@@ -20,9 +20,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import VisuallyHiddenInput from "../Form/VisuallyHiddenInput";
 
-// Xử lý custom đẹp cái input file ở đây: https://mui.com/material-ui/react-button/#file-upload
-// Ngoài ra note thêm lib này từ docs của MUI nó recommend nếu cần dùng: https://github.com/viclafouch/mui-file-input
-
 function AccountTab() {
   const currentUser = useSelector(selectCurrentUser);
 
@@ -74,7 +71,7 @@ function AccountTab() {
     // for (const value of reqData.values()) {
     //   console.log("reqData Value: ", value);
     // }
-    // Gọi API...
+
     toast
       .promise(dispatch(updateUserAPI(reqData)), {
         pending: "updating... ",

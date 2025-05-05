@@ -82,67 +82,6 @@ const AppBar = () => {
         </Box>
       </Box>
       <Box sx={{ display: "flex", alignItems: "center", gap: 3 }}>
-        {/* <Input
-          label="Outlined"
-          variant="outlined"
-          value={inputValue}
-          placeholder="Search...."
-          onChange={(e) => setInputValue(e.target.value)}
-          sx={{
-            border: "1px solid white",
-            "&:hover ": {
-              // borderBottomColor: "red !important",
-            },
-            "&.MuiInput-root::before": {
-              borderBottomColor: "transparent",
-            },
-            "&.MuiInput-root::after": {
-              borderBottomColor: "transparent",
-            },
-            borderColor: (theme) =>
-              theme.palette.mode === "dark" ? "primary.main" : "white",
-            padding: "3px 10px",
-            borderRadius: "5px",
-            width: "200px",
-            color: (theme) =>
-              theme.palette.mode === "dark" ? "primary.main" : "white",
-            transition: (theme) => theme.transitions.create("width"),
-            [theme.breakpoints.up("sm")]: {
-              "&.Mui-focused": {
-                width: "250px",
-              },
-            },
-          }}
-          startAdornment={
-            <InputAdornment position="start">
-              <Search
-                sx={{
-                  color: (theme) =>
-                    theme.palette.mode === "dark" ? "primary.main" : "white",
-                  cursor: "pointer",
-                }}
-              />
-            </InputAdornment>
-          }
-          endAdornment={
-            <InputAdornment
-              position="start"
-              onClick={() => setInputValue("")}
-              sx={{ cursor: "pointer" }}
-            >
-              <HighlightOffIcon
-                sx={{
-                  color: (theme) =>
-                    inputValue.length > 0
-                      ? theme.palette.mode === "dark"
-                        ? "primary.main"
-                        : "white"
-                      : "transparent",
-                }}
-              />
-            </InputAdornment>
-          }
-        /> */}
         <AutoCompleteSearchBoard />
 
         {/* dark-light-mode */}

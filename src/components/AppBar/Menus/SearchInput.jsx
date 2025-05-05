@@ -12,9 +12,6 @@ const SearchInput = () => {
     position: "relative",
     padding: "0 10px",
     borderRadius: theme.shape.borderRadius,
-    // "&:hover": {
-    //   backgroundColor: alpha(theme.palette.primary.light, 0.25),
-    // },
     marginLeft: 0,
     width: "100%",
     [theme.breakpoints.up("sm")]: {
@@ -37,7 +34,7 @@ const SearchInput = () => {
     width: "100%",
     "& .MuiInputBase-input": {
       padding: theme.spacing(2, 1, 1, 0),
-      // vertical padding + font size from searchIcon
+
       paddingLeft: `calc(1em + ${theme.spacing(4)})`,
       transition: theme.transitions.create("width"),
       [theme.breakpoints.up("sm")]: {

@@ -39,7 +39,10 @@ import {
   updateCurrentActiveCard,
 } from "~/redux/activeCard/activeCardSlice";
 import { updateCardDetailsAPI } from "~/apis";
-import { updateCardInActiveBoard } from "~/redux/activeBoard/activeBoardSlice";
+import {
+  selectCurrentActiveBoard,
+  updateCardInActiveBoard,
+} from "~/redux/activeBoard/activeBoardSlice";
 import { selectCurrentUser } from "~/redux/user/userSlice";
 import { CARD_MEMBER_ACTION } from "~/utils/constants";
 const SidebarItem = styled(Box)(({ theme }) => ({
@@ -74,6 +77,7 @@ function ActiveCard() {
   // const handleOpenModal = () => setIsOpen(true);
 
   const currentUser = useSelector(selectCurrentUser);
+  const board = useSelector(selectCurrentActiveBoard);
 
   const handleCloseModal = () => {
     // setIsOpen(false);
@@ -101,7 +105,6 @@ function ActiveCard() {
     let reqData = new FormData();
     reqData.append("cardCover", event.target?.files[0]);
 
-    // Gọi API...
     toast
       .promise(
         callApiUpdateCard(reqData).finally(() => {
@@ -275,11 +278,18 @@ function ActiveCard() {
               )}
 
               {/* Feature 06: Xử lý hành động cập nhật ảnh Cover của Card */}
-              <SidebarItem className="active" component="label">
-                <ImageOutlinedIcon fontSize="small" />
-                Cover
-                <VisuallyHiddenInput type="file" onChange={onUploadCardCover} />
-              </SidebarItem>
+              {board.ownerIds.includes(currentUser._id) ? (
+                <SidebarItem className="active" component="label">
+                  <ImageOutlinedIcon fontSize="small" />
+                  Cover
+                  <VisuallyHiddenInput
+                    type="file"
+                    onChange={onUploadCardCover}
+                  />
+                </SidebarItem>
+              ) : (
+                ""
+              )}
 
               <SidebarItem>
                 <AttachFileOutlinedIcon fontSize="small" />
