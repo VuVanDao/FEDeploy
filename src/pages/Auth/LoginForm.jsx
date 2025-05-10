@@ -42,7 +42,6 @@ function LoginForm() {
       })
       .then((res) => {
         console.log(res);
-        // navigate(`/login?registeredEmail=${user.email}`);
         if (!res.error) {
           navigate("/");
         }

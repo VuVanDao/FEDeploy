@@ -6,7 +6,7 @@ if (process.env.BUILD_MODE === "dev") {
 }
 // if (process.env.BUILD_MODE === "production") {
 // }
-console.log(apiRoot);
+
 export const api_root = apiRoot;
 
 export const DEFAULT_PAGE = 1;
