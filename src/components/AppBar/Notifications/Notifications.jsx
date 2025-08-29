@@ -58,6 +58,7 @@ function Notifications() {
 
     //tao 1 function xu li real time
     const onReceiveNewInvitation = (invitation) => {
+      console.log("🚀 ~ onReceiveNewInvitation ~ invitation:", invitation);
       //neu user hiewn tai dang dang nhap trong redux la thang invitee trong invitation
       if (invitation.inviteeId === currentUser._id) {
         //them ban ghi invitation moi vao redux

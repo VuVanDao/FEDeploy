@@ -87,6 +87,7 @@ function ActiveCard() {
   };
   const callApiUpdateCard = async (updateData) => {
     const updatedCard = await updateCardDetailsAPI(activeCard._id, updateData);
+    console.log("🚀 ~ callApiUpdateCard ~ updateData:", updateData);
     dispatch(updateCurrentActiveCard(updatedCard));
     dispatch(updateCardInActiveBoard(updatedCard));
     return updatedCard;
